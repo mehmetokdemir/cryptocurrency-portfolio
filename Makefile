@@ -1,3 +1,5 @@
+include META
+
 .PHONY: git
 git:
 	@echo "[BUILD] Committing and pushing to remote repository"
