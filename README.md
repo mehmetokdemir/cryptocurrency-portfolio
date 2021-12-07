@@ -1,15 +1,15 @@
-#**CRYPTOCURRENCY PORTFOLIO**
+CRYPTOCURRENCY PORTFOLIO
 
-##Mongo
+Mongo
 
-###docker pull mongo:latest
+docker pull mongo:latest
 
-###docker run -d -p 27017:27017 --name mongo-local mongo-db:latest
+docker run -d -p 27017:27017 --name mongo-local mongo-db:latest
 
-##Run Go App on Docker
+Run Go App on Docker
 
-###docker-compose up
+docker-compose up
 
-##Swagger | API Documentation
+Swagger | API Documentation
 
-###{{URL}}}/swagger/index.html
+{{URL}}}/swagger/index.html
