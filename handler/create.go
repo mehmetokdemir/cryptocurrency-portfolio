@@ -20,7 +20,14 @@ import (
 	"cryptocurrency-portfolio/model/response"
 )
 
-//PutCurrency Create
+// PutCurrency godoc
+// @Summary      Create Cryptocurrency
+// @Description  Create cryptocurrency portfolio
+// @Tags         Cryptocurrency
+// @Produce      json
+// @Param request body request.CreateAndUpdate true "Example Request"
+// @Success      200  {object}  ApiResponse{data=response.CreateAndUpdate} "Success"
+// @Router       /currency [put]
 func (h *Handler) PutCurrency() ApiResponse {
 	body, err := ioutil.ReadAll(h.Ctx.Request().Body)
 	if err != nil {

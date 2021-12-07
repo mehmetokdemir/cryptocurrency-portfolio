@@ -15,6 +15,14 @@ import (
 	"cryptocurrency-portfolio/model/response"
 )
 
+// GetCurrencyBy godoc
+// @Summary      Read Cryptocurrency
+// @Description  Read cryptocurrency portfolio by id
+// @Tags         Cryptocurrency
+// @Produce      json
+// @Param id path string true "Cryptocurrency id"
+// @Success      200  {object}  ApiResponse "Success"
+// @Router       /currency/{id} [get]
 func (h *Handler) GetCurrencyBy(id string) ApiResponse {
 	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {

@@ -5,6 +5,8 @@ import (
 	"cryptocurrency-portfolio/handler"
 	"fmt"
 	"github.com/asaskevich/govalidator"
+	"github.com/iris-contrib/swagger/v12"
+	"github.com/iris-contrib/swagger/v12/swaggerFiles"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/recover"
 	"github.com/kataras/iris/v12/mvc"
@@ -13,6 +15,7 @@ import (
 	"log"
 	"os"
 
+	_ "cryptocurrency-portfolio/docs"
 	"go.mongodb.org/mongo-driver/mongo"
 	"time"
 )
@@ -23,9 +26,11 @@ const (
 	apiPort                      = ":8080"
 )
 
+// @title CRYPTOCURRENCY PORTFOLIO
+// @version 1.0
+// @description This is a sample CRUD operations on currency system.
 func main() {
 	//"mongodb://localhost:27017"
-
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -46,10 +51,16 @@ func main() {
 
 	fmt.Println("connected to the mongo db")
 
-	app := iris.New()
+	app := iris.Default()
 	app.UseRouter(recover.New())
-	api := mvc.New(app.Party("/"))
 
+	config := &swagger.Config{
+		URL:         "http://localhost:8080/swagger/doc.json",
+		DeepLinking: true,
+	}
+	app.Get("/swagger/{any:path}", swagger.CustomWrapHandler(config, swaggerFiles.Handler))
+
+	api := mvc.New(app.Party("/"))
 	// I have 1 collection and handled in main
 	coll := mongoClient.Database(dbName).Collection(cryptoCurrencyCollectionName)
 	api.Handle(&handler.Handler{

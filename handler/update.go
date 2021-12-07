@@ -20,6 +20,15 @@ import (
 	"cryptocurrency-portfolio/model/response"
 )
 
+// PatchCurrencyBy godoc
+// @Summary      Update Cryptocurrency
+// @Description  Update cryptocurrency portfolio by id
+// @Tags         Cryptocurrency
+// @Produce      json
+// @Param id path string true "Cryptocurrency id"
+// @Param request body request.CreateAndUpdate true "Example Request"
+// @Success      200  {object}  ApiResponse "Success"
+// @Router       /currency/{id} [patch]
 func (h *Handler) PatchCurrencyBy(id string) ApiResponse {
 	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {

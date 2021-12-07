@@ -9,6 +9,13 @@ import (
 	"net/http"
 )
 
+// GetCurrencies godoc
+// @Summary      List All Cryptocurrencies
+// @Description  List all cryptocurrencies portfolio
+// @Tags         Cryptocurrency
+// @Produce      json
+// @Success      200  {object}  ApiResponse "Success"
+// @Router       /currencies [get]
 func (h *Handler) GetCurrencies() ApiResponse {
 	ctx := context.TODO()
 	cur, err := h.MongoCollection.Find(ctx, bson.M{})
