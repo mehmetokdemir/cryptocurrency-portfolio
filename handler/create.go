@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-
 	// External imports
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -23,12 +22,9 @@ import (
 
 //PutCurrency Create
 func (h *Handler) PutCurrency() ApiResponse {
-
 	body, err := ioutil.ReadAll(h.Ctx.Request().Body)
 	if err != nil {
-		fmt.Println("err 1", err.Error())
-		// TODO: ERROR
-		//return GenerateResponse("a", nil)
+		return GenerateResponse(http.StatusBadRequest, DescriptionEnumBodyError, err.Error())
 	}
 
 	var create request.CreateAndUpdate
@@ -37,7 +33,7 @@ func (h *Handler) PutCurrency() ApiResponse {
 	}
 
 	validate := validator(create)
-	if validate != nil {
+	if len(validate) > 0 {
 		return GenerateResponse(http.StatusBadRequest, DescriptionEnumBodyError, validate)
 	}
 
@@ -83,7 +79,6 @@ func (h *Handler) PutCurrency() ApiResponse {
 	}
 
 	cryptoCurrency := database.Currency{
-		Id:     primitive.NewObjectID(),
 		Code:   currencyInMarketCamp,
 		Amount: create.Amount,
 		Price:  price,

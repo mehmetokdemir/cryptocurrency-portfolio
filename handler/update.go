@@ -4,7 +4,6 @@ import (
 	// Go imports
 	"context"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -29,9 +28,7 @@ func (h *Handler) PatchCurrencyBy(id string) ApiResponse {
 
 	body, err := ioutil.ReadAll(h.Ctx.Request().Body)
 	if err != nil {
-		fmt.Println("err 1", err.Error())
-		// TODO: ERROR
-		//return GenerateResponse("a", nil)
+		return GenerateResponse(http.StatusBadRequest, DescriptionEnumBodyError, err.Error())
 	}
 
 	var update request.CreateAndUpdate
@@ -40,7 +37,7 @@ func (h *Handler) PatchCurrencyBy(id string) ApiResponse {
 	}
 
 	validate := validator(update)
-	if validate != nil {
+	if len(validate) > 0 {
 		return GenerateResponse(http.StatusBadRequest, DescriptionEnumBodyError, validate)
 	}
 

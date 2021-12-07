@@ -18,15 +18,15 @@ import (
 )
 
 const (
-	dbName = "crypto-db"
-	collName = "crypto_currencies"
-	apiPort = ":8080"
+	dbName                       = "crypto-db"
+	cryptoCurrencyCollectionName = "crypto_currencies"
+	apiPort                      = ":8080"
 )
 
 func main() {
 	//"mongodb://localhost:27017"
-	fmt.Println(os.Getenv("MONGODB_URI"))
-	ctx,cancel := context.WithTimeout(context.Background(), 10*time.Second)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	mongoClient, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGODB_URI")))
@@ -36,12 +36,12 @@ func main() {
 
 	defer func() {
 		if err = mongoClient.Disconnect(ctx); err != nil {
-			log.Fatal(err,"can not disconnect mongoDB")
+			log.Fatal(err, "can not disconnect mongoDB")
 		}
 	}()
 
 	if err = mongoClient.Ping(ctx, readpref.Primary()); err != nil {
-		log.Fatal(err,"can not ping mongoDB")
+		log.Fatal(err, "can not ping mongoDB")
 	}
 
 	fmt.Println("connected to the mongo db")
@@ -51,7 +51,7 @@ func main() {
 	api := mvc.New(app.Party("/"))
 
 	// I have 1 collection and handled in main
-	coll := mongoClient.Database(dbName).Collection(collName)
+	coll := mongoClient.Database(dbName).Collection(cryptoCurrencyCollectionName)
 	api.Handle(&handler.Handler{
 		MongoCollection: coll,
 	})
