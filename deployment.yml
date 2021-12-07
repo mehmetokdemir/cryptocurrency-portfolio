@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cryptocurrency-portfolio
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: cryptocurrency-portfolio
+  template:
+    metadata:
+      labels:
+        name: cryptocurrency-portfolio
+    spec:
+      containers:
+        - name: application
+          image: crypto/cryptocurrency-portfolio
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
