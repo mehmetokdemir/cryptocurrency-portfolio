@@ -1,34 +1,37 @@
 package handler
 
 import (
+	// Go imports
 	"context"
-	"cryptocurrency-portfolio/model/database"
-	"fmt"
-	"github.com/stretchr/testify/assert"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testing"
+
+	// External imports
+	"github.com/stretchr/testify/assert"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+
+	// Internal imports
+	"cryptocurrency-portfolio/model/database"
 )
 
-func (h *Handler) TestAddCurrency(t *testing.T) {
-	fmt.Println("girdi")
-	id := primitive.NewObjectID()
-	newCurrency := database.Currency{
-		Id:      id,
-		Code:    "IKZ",
-		Amount:  2,
-		Price:   100,
-		History: nil,
-	}
-
-	h.MongoCollection.InsertOne(context.TODO(), newCurrency)
-
-	retrievedCurrency := database.Currency{}
-	err := h.MongoCollection.FindOne(context.TODO(), bson.M{"_id": id}).Decode(&retrievedCurrency)
-	assert.Nil(t, err)
-	assert.EqualValues(t, newCurrency.Code, retrievedCurrency.Code)
+func (m *mockCollection) InsertOne(ctx context.Context, document interface{}, opts ...*options.InsertOneOptions) (*mongo.InsertOneResult, error) {
+	c := &mongo.InsertOneResult{}
+	return c, nil
 }
 
-func TestCalculatePrice(t *testing.T) {
+func insertData(collection collectionApi, currency database.Currency) (*mongo.InsertOneResult, error) {
+	res, err := collection.InsertOne(context.Background(), currency)
+	if err != nil {
+		return res, err
+	}
+	return res, nil
+}
 
+func TestCreateCurrency(t *testing.T) {
+	res, err := insertData(mockCol, database.Currency{
+		Code:   "OKC",
+		Amount: 3,
+	})
+	assert.Nil(t, err)
+	assert.IsType(t, &mongo.InsertOneResult{}, res)
 }
