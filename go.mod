@@ -7,6 +7,7 @@ require (
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/kataras/iris/v12 v12.2.0-alpha2.0.20210422110000-6219e5713558
 	github.com/pterm/pterm v0.12.33
+	github.com/stretchr/testify v1.7.0
 	go.mongodb.org/mongo-driver v1.8.0
 )
 
@@ -22,6 +23,7 @@ require (
 	github.com/aymerick/raymond v2.0.3-0.20180322193309-b565731e1464+incompatible // indirect
 	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/chris-ramon/douceur v0.2.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/flosch/pongo2/v4 v4.0.2 // indirect
@@ -58,6 +60,7 @@ require (
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
