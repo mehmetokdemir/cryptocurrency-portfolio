@@ -1,12 +1,17 @@
 package handler
 
 import (
+	// Go imports
 	"context"
+	"net/http"
+
+	// External imports
+	"go.mongodb.org/mongo-driver/bson"
+
+	// Internal imports
 	. "cryptocurrency-portfolio/model/common"
 	"cryptocurrency-portfolio/model/database"
 	"cryptocurrency-portfolio/model/response"
-	"go.mongodb.org/mongo-driver/bson"
-	"net/http"
 )
 
 // GetCurrencies godoc

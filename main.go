@@ -1,23 +1,27 @@
 package main
 
 import (
+	// Go imports
 	"context"
-	"cryptocurrency-portfolio/handler"
 	"fmt"
+	"log"
+	"os"
+	"time"
+
+	// External imports
 	"github.com/asaskevich/govalidator"
 	"github.com/iris-contrib/swagger/v12"
 	"github.com/iris-contrib/swagger/v12/swaggerFiles"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/recover"
 	"github.com/kataras/iris/v12/mvc"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"log"
-	"os"
 
+	// Internal imports
 	_ "cryptocurrency-portfolio/docs"
-	"go.mongodb.org/mongo-driver/mongo"
-	"time"
+	"cryptocurrency-portfolio/handler"
 )
 
 const (
@@ -30,7 +34,7 @@ const (
 // @version 1.0
 // @description This is a sample CRUD operations on currency system.
 func main() {
-	//"mongodb://localhost:27017"
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -61,7 +65,8 @@ func main() {
 	app.Get("/swagger/{any:path}", swagger.CustomWrapHandler(config, swaggerFiles.Handler))
 
 	api := mvc.New(app.Party("/"))
-	// I have 1 collection and handled in main
+
+	// I have 1 collection and handle it on main
 	coll := mongoClient.Database(dbName).Collection(cryptoCurrencyCollectionName)
 	api.Handle(&handler.Handler{
 		MongoCollection: coll,

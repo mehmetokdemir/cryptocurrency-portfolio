@@ -8,10 +8,10 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+
 	// External imports
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	//"github.com/shopspring/decimal"
 
 	// Internal imports
 	. "cryptocurrency-portfolio/model/common"
@@ -46,7 +46,7 @@ func (h *Handler) PutCurrency() ApiResponse {
 
 	create.Code = strings.ToUpper(create.Code)
 
-	// TODO: Make local cache to currencies list
+	// TODO: Make local cache from currencies list
 	currencyCodes, err := getCurrencyCodes()
 	if err != nil {
 		return GenerateResponse(
