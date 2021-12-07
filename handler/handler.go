@@ -10,7 +10,10 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/pterm/pterm"
 	"go.mongodb.org/mongo-driver/mongo"
+	"math"
+	"strconv"
 	"strings"
+	"time"
 )
 
 type Handler struct {
@@ -79,12 +82,34 @@ func calculatePrice(amount int64, code string) (float64, error) {
 	}
 
 	price := quote.Price * float64(amount)
-	return price, nil
+	return math.Round(math.Pow(10, float64(2))*price) / math.Pow(10, float64(2)), nil
+}
+
+func listingsHistorical() map[string]float64 {
+	//var currencies = make(map[string]float64)
+	a, _ := getCurrencyCodes()
+	l := len(a)
+	fmt.Println("girdi")
+	restyClient := resty.New()
+	outResponse, err := restyClient.R().
+		SetHeader("Accepts", "application/json").
+		SetHeader("X-CMC_PRO_API_KEY", "bf7a2e3b-3fd0-4b8b-8e10-609673e3cd33").
+		SetQueryParam("limit", strconv.FormatInt(time.Now().Unix(), l)).
+		Get("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest")
+	if err != nil {
+		pterm.Error.Println("can not call cryptocurrency listing", err.Error())
+		return nil
+	}
+
+	fmt.Println("outres", len(outResponse.Body()))
+
+	return nil
 }
 
 func validator(data interface{}) map[string]string {
 	var validateError = make(map[string]string)
 	if _, err := govalidator.ValidateStruct(data); err != nil {
+		fmt.Println("err", err.Error())
 		switch errs := err.(type) {
 		case govalidator.Errors:
 			for _, e := range errs {

@@ -4,7 +4,6 @@ import (
 	// Go imports
 	"context"
 	"net/http"
-
 	// External imports
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -52,7 +51,7 @@ func (h *Handler) GetCurrencyBy(id string) ApiResponse {
 	for _, past := range crypto.History {
 		currentPrice, err := calculatePrice(past.Amount, crypto.Code)
 		if err != nil {
-			return GenerateResponse(http.StatusInternalServerError, DescriptionEnumServerError, err.Error())
+			return GenerateResponse(http.StatusNotFound, DescriptionEnumCurrencyNotFound, err.Error())
 		}
 		history = append(history, response.History{
 			Amount: past.Amount,

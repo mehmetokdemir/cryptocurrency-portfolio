@@ -13,14 +13,12 @@ func (h *Handler) GetCurrencies() ApiResponse {
 	ctx := context.TODO()
 	cur, err := h.MongoCollection.Find(ctx, bson.M{})
 	if err != nil {
-		// TODO: ERR
-		return GenerateResponse(1, "", nil)
+		return GenerateResponse(http.StatusInternalServerError, DescriptionEnumServerError, map[string]string{"error": "Server error"})
 	}
 
 	var cryptoCurrencies database.Currencies
 	if err := cur.All(ctx, &cryptoCurrencies); err != nil {
-		// TODO: ERR
-		return GenerateResponse(1, "", nil)
+		return GenerateResponse(http.StatusInternalServerError, DescriptionEnumServerError, map[string]string{"error": "Server error"})
 	}
 
 	var respondCurrencies response.List
@@ -28,7 +26,7 @@ func (h *Handler) GetCurrencies() ApiResponse {
 		var history []response.History
 		availableCurrentPrice, err := calculatePrice(cryptoCurrency.Amount, cryptoCurrency.Code)
 		if err != nil {
-			return GenerateResponse(http.StatusInternalServerError, DescriptionEnumServerError, err.Error())
+			return GenerateResponse(http.StatusNotFound, DescriptionEnumCurrencyNotFound, err.Error())
 		}
 
 		history = append(history, response.History{
@@ -43,7 +41,7 @@ func (h *Handler) GetCurrencies() ApiResponse {
 		for _, past := range cryptoCurrency.History {
 			price, err := calculatePrice(cryptoCurrency.Amount, cryptoCurrency.Code)
 			if err != nil {
-				return GenerateResponse(http.StatusInternalServerError, DescriptionEnumServerError, err.Error())
+				return GenerateResponse(http.StatusNotFound, DescriptionEnumCurrencyNotFound, err.Error())
 			}
 			history = append(history, response.History{
 				Amount: past.Amount,
@@ -60,5 +58,6 @@ func (h *Handler) GetCurrencies() ApiResponse {
 			History: history,
 		})
 	}
+
 	return GenerateResponse(http.StatusOK, DescriptionEnumSuccess, respondCurrencies)
 }
