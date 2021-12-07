@@ -8,8 +8,8 @@ type CreateAndUpdate struct {
 }
 
 type CurrencyPrice struct {
-	Old     float64 `json:"old" extensions:"x-order-1" example:"4850.13"`    // Old price of the currency
-	Current float64 `json:"current"extensions:"x-order-2" example:"4900.01"` // New price of the currency
+	Old     float64 `json:"old" extensions:"x-order-1" example:"4850.13"`     // Old price of the currency
+	Current float64 `json:"current" extensions:"x-order-2" example:"4900.01"` // New price of the currency
 }
 
 type History struct {
