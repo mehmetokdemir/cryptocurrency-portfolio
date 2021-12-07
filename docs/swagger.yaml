@@ -1,0 +1,154 @@
+definitions:
+  common.ApiResponse:
+    properties:
+      data: {}
+      description:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  request.CreateAndUpdate:
+    properties:
+      amount:
+        description: Amount of the code
+        example: 3
+        type: integer
+        x-order-2: true
+      code:
+        description: Symbol of the cryptocurrency
+        example: BTC
+        type: string
+        x-order-1: true
+    required:
+    - amount
+    - code
+    type: object
+  response.CreateAndUpdate:
+    properties:
+      amount:
+        description: Amount of the code
+        example: 4
+        type: integer
+        x-order-3: true
+      code:
+        description: Code of the cryptocurrency portfolio
+        example: BTC
+        type: string
+        x-order-2: true
+      id:
+        description: ID of the cryptocurrency portfolio
+        example: 61ae85f3b45c25aa9cdaba99
+        type: string
+        x-order-1: true
+      price:
+        description: Price of the code and multiplied amount
+        example: 4900.01
+        type: number
+        x-order-4: true
+    type: object
+info:
+  contact: {}
+  description: This is a sample CRUD operations on currency system.
+  title: CRYPTOCURRENCY PORTFOLIO
+  version: "1.0"
+paths:
+  /currencies:
+    get:
+      description: List all cryptocurrencies portfolio
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/common.ApiResponse'
+      summary: List All Cryptocurrencies
+      tags:
+      - Cryptocurrency
+  /currency:
+    put:
+      description: Create cryptocurrency portfolio
+      parameters:
+      - description: Example Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateAndUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.ApiResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.CreateAndUpdate'
+              type: object
+      summary: Create Cryptocurrency
+      tags:
+      - Cryptocurrency
+  /currency/{id}:
+    delete:
+      description: Delete cryptocurrency portfolio
+      parameters:
+      - description: Cryptocurrency id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/common.ApiResponse'
+      summary: Delete Cryptocurrency
+      tags:
+      - Cryptocurrency
+    get:
+      description: Read cryptocurrency portfolio by id
+      parameters:
+      - description: Cryptocurrency id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/common.ApiResponse'
+      summary: Read Cryptocurrency
+      tags:
+      - Cryptocurrency
+    patch:
+      description: Update cryptocurrency portfolio by id
+      parameters:
+      - description: Cryptocurrency id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Example Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateAndUpdate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/common.ApiResponse'
+      summary: Update Cryptocurrency
+      tags:
+      - Cryptocurrency
+swagger: "2.0"
