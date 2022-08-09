@@ -9,6 +9,7 @@ require (
 	github.com/kataras/iris/v12 v12.2.0-alpha2.0.20210422110000-6219e5713558
 	github.com/pterm/pterm v0.12.33
 	github.com/stretchr/testify v1.7.0
+	github.com/swaggo/swag v1.6.5
 	go.mongodb.org/mongo-driver v1.8.0
 )
 
@@ -75,7 +76,6 @@ require (
 	github.com/schollz/closestmatch v2.1.0+incompatible // indirect
 	github.com/sergi/go-diff v1.2.0 // indirect
 	github.com/smartystreets/goconvey v1.7.2 // indirect
-	github.com/swaggo/swag v1.6.5 // indirect
 	github.com/tdewolff/minify/v2 v2.9.13 // indirect
 	github.com/tdewolff/parse/v2 v2.5.10 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect

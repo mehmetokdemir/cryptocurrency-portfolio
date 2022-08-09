@@ -25,6 +25,7 @@ import (
 // @Success      200  {object}  ApiResponse "Success"
 // @Router       /currency/{id} [get]
 func (h *Handler) GetCurrencyBy(id string) ApiResponse {
+	fmt.Println("currency by id",id)
 	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return GenerateResponse(http.StatusBadRequest, DescriptionEnumBodyError, map[string]string{"error": "Bad request"})
